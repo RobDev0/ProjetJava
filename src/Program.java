@@ -1,12 +1,8 @@
 import Classes.Produit;
-import Classes.QRCodeGenerator;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.DocumentException;
 import org.apache.commons.cli.*;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,9 +19,6 @@ public class Program {
 		return options;
 	}
 
-	public static final String RESULT
-			= "E:\\Lolox\\Cours\\Java\\ProjetJava\\hello.pdf";
-
 	public static void main(String[] args) throws DocumentException, IOException, WriterException {
 
 		Options options = genererOptions();
@@ -37,14 +30,8 @@ public class Program {
 				List<Produit> productList = Produit.extractProductFromCSV(cheminFichier);
 				for (int i=0; i<productList.size(); i++){
 					System.out.println(productList.get(i).getNom() + " - " + productList.get(i).getCategorie() + "\n" + productList.get(i).getPrixHT() + " euros HT / " + productList.get(i).getPrixTTC() + " euros TTC" + "\n");
-					String content = productList.get(i).getCode();
-					String filename = "qrcode.png";
-					QRCodeGenerator generator = new QRCodeGenerator();
-					BufferedImage image = generator.generate(content, 150);
-					ImageIO.write(image, "PNG", new File(filename));
-					new HelloWorld().createPdf(RESULT, image);
 				}
-
+				new PdfEtiquette().createEtiquette(cheminFichier + ".pdf", productList);
 			}else
 				System.out.println("Le paramètre du fichier csv requis est manquant. Arrêt du programme.");
 		}catch(ParseException ex) {

@@ -3,7 +3,11 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import Classes.Produit;
+import com.google.zxing.WriterException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -17,20 +21,7 @@ import javax.imageio.ImageIO;
 /**
  * First iText example: Hello World.
  */
-public class HelloWorld {
-
-    /** Path to the resulting PDF file. */
-    public static final String RESULT
-        = "C:\\Users\\Niquelesstup\\Documents\\Cours\\Java\\ProjetJava\\hello.pdf";
-
-    /**
-     * Creates a PDF file: hello.pdf
-     * @param    args    no arguments needed
-     */
-    public static void main(String[] args)
-    	throws DocumentException, IOException {
-    	//new HelloWorld().createPdf(RESULT);
-    }
+public class PdfEtiquette {
 
     /**
      * Creates a PDF document.
@@ -38,28 +29,27 @@ public class HelloWorld {
      * @throws    DocumentException
      * @throws    IOException
      */
-    public void createPdf(String filename, BufferedImage bufferedImage)
-	throws DocumentException, IOException {
+    public void createEtiquette(String filename, List<Produit> productsList)
+	throws DocumentException, IOException, WriterException {
     	//
     	Chunk glue = new Chunk(new VerticalPositionMark());
     	Paragraph p = new Paragraph();
-    	p.add(new Chunk(glue));
-    	p.add("lol je suis a droite !");
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", baos);
-        Image iTextImage = Image.getInstance(baos.toByteArray());
 
         // step 1
         Document document = new Document();
-        // step 2
         PdfWriter.getInstance(document, new FileOutputStream(filename));
-        // step 3
         document.open();
-        document.add(iTextImage);
-        // step 4
+
+        for (int i=0; i<productsList.size(); i++) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(productsList.get(i).getQRCode(), "png", baos);
+            Image iTextImage = Image.getInstance(baos.toByteArray());
+            p.add(new Chunk(glue));
+            document.add(iTextImage);
+        }
+
+
         document.add(p);
-        // step 5
         document.close();
     }
 

@@ -2,7 +2,13 @@ package Classes;
 
 import Classes.CSV.CsvFileHelper;
 import Classes.CSV.CsvReader;
+import com.google.zxing.WriterException;
+import com.itextpdf.text.DocumentException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +73,15 @@ public class Produit {
             listProduct.add(newProduct);
         }
         return listProduct;
+    }
+
+    public BufferedImage getQRCode() throws DocumentException, IOException, WriterException {
+        String content = this.getCode();
+        //String filename = "qrcode" + this.getCode() + ".png";
+        QRCodeGenerator generator = new QRCodeGenerator();
+        BufferedImage image = generator.generate(content, 150);
+        //ImageIO.write(image, "PNG", new File(filename));
+        return image;
     }
 
     public double getTVA() {

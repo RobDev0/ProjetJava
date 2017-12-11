@@ -12,9 +12,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class QRCodeGenerator {
 
-    public static void main(String[] args)  {
-
-    }
     public static BufferedImage generate(String content, int sizeInPixels) throws WriterException {
         QRCodeWriter qrWriter = new QRCodeWriter();
         Object matrix = qrWriter.encode(content, BarcodeFormat.QR_CODE, sizeInPixels, sizeInPixels);
