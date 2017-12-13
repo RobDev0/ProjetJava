@@ -1,16 +1,10 @@
 package Classes;
 
-import Classes.CSV.CsvFileHelper;
-import Classes.CSV.CsvReader;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.DocumentException;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Produit {
 
@@ -23,65 +17,12 @@ public class Produit {
 
     public Produit(){}
     public Produit(String cat, String code, String desc, String nom, double prix) {
-        this.categorie = cat;
-        this.code = code;
-        this.description = desc;
-        this.nom = nom;
-        this.prixHT = prix;
+        this.setCategorie(cat);
+        this.setCode(code);
+        this.setDescription(desc);
+        this.setNom(nom);
+        this.setPrixHT(prix);
 
-    }
-
-    public String getCategorie()
-    {
-        return this.categorie;
-    }
-    public String getCode()
-    {
-        return this.code;
-    }
-    public String getDescription()
-    {
-        return this.description;
-    }
-    public String getNom()
-    {
-        return this.nom;
-    }
-    public double getPrixHT()
-    {
-        return this.prixHT;
-    }
-    public double getPrixTTC(){
-        return this.prixHT + (this.prixHT * this.getTVA() / 100);
-    }
-
-    public static List<Produit> extractProductFromCSV(String cheminFichier) {
-        List<Produit> listProduct = new ArrayList<>();
-        CsvReader fileReader = new CsvReader(CsvFileHelper.getResource(cheminFichier));
-        List<List<String>> fileContent = fileReader.getContentLinesList();
-        for (int i=0;i<fileContent.size();i++){
-            Produit newProduct = new Produit();
-            newProduct.nom = fileContent.get(i).get(0);
-            newProduct.categorie = fileContent.get(i).get(1);
-            newProduct.code = fileContent.get(i).get(2);
-            newProduct.description = fileContent.get(i).get(3);
-            try {
-                newProduct.prixHT = Double.valueOf(fileContent.get(i).get(4));
-            }catch (NumberFormatException ex){
-                newProduct.prixHT = 0;
-            }
-            listProduct.add(newProduct);
-        }
-        return listProduct;
-    }
-
-    public BufferedImage getQRCode() throws DocumentException, IOException, WriterException {
-        String content = this.getCode();
-        //String filename = "qrcode" + this.getCode() + ".png";
-        QRCodeGenerator generator = new QRCodeGenerator();
-        BufferedImage image = generator.generate(content, 150);
-        //ImageIO.write(image, "PNG", new File(filename));
-        return image;
     }
 
     public double getTVA() {
@@ -89,6 +30,45 @@ public class Produit {
     }
     public void setTVA(double TVA) {
         this.TVA = TVA;
+    }
+
+    public String getCategorie() {
+        return categorie;
+    }
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
+    public String getCode() {
+        return code;
+    }
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public double getPrixHT() {
+        return prixHT;
+    }
+    public void setPrixHT(double prixHT) {
+        this.prixHT = prixHT;
+    }
+
+    public double getPrixTTC(){
+        return this.getPrixHT() + (this.getPrixHT() * this.getTVA() / 100);
     }
 
 }

@@ -32,7 +32,7 @@ public class PDF {
             P.add(Chunk.NEWLINE);
             P.add(Chunk.NEWLINE);
             P.add(new Chunk(glue));
-            P.add("Catégorie : " + cate);
+            P.add("Catï¿½gorie : " + cate);
             document.open();
             document.add(P);
             P.clear();
@@ -46,6 +46,7 @@ public class PDF {
             P.add(description);
             P.add(Chunk.NEWLINE);
             P.add(Chunk.NEWLINE);
+
             PdfPTable tab = Tableau(1,a);
             Paragraph P2 = new Paragraph();
             P2.add(new Chunk(glue));

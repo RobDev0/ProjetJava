@@ -1,4 +1,5 @@
 import Classes.Produit;
+import Classes.CSV.CSVAdapter;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.DocumentException;
 import org.apache.commons.cli.*;
@@ -27,7 +28,8 @@ public class Program {
 			CommandLine cmd = parser.parse( options, args);
 			if (cmd.hasOption("i")) {
 				String cheminFichier = cmd.getOptionValue("i");
-				List<Produit> productList = Produit.extractProductFromCSV(cheminFichier);
+				CSVAdapter csvAdapter = new CSVAdapter(cheminFichier);
+				List<Produit> productList = csvAdapter.extractProductFromCSV();
 				for (int i=0; i<productList.size(); i++){
 					System.out.println(productList.get(i).getNom() + " - " + productList.get(i).getCategorie() + "\n" + productList.get(i).getPrixHT() + " euros HT / " + productList.get(i).getPrixTTC() + " euros TTC" + "\n");
 				}

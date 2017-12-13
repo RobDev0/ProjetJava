@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Classes.Produit;
+import Classes.QRCodeGenerator;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -42,7 +43,8 @@ public class PdfEtiquette {
 
         for (int i=0; i<productsList.size(); i++) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(productsList.get(i).getQRCode(), "png", baos);
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            ImageIO.write(qrGenerator.getQRCode(productsList.get(i).getCode()), "png", baos);
             Image iTextImage = Image.getInstance(baos.toByteArray());
             p.add(new Chunk(glue));
             document.add(iTextImage);
