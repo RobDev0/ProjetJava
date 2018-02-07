@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvFileHelper {
+class CsvFileHelper {
 
-    public static List<String> readFile(File file) {
+    List<String> readFile(File file) {
         List<String> result = new ArrayList<>();
         try {
             FileReader fr = new FileReader(file);
@@ -18,23 +18,22 @@ public class CsvFileHelper {
             fr.close();
             return result;
         }catch (FileNotFoundException FnFex){
-            System.out.println("Ce fichier n'a pas pu être chargé, arrêt du programme");
+            System.out.println("Le fichier d'entrée n'a pas pu être chargé, arrêt du programme");
+            System.out.println("path : " + file.getAbsolutePath());
         }catch (IOException IOex){
-            System.out.println("Une erreur est survenue lors de la lecture / fermeture du fichier, arrêt du programme");
+            System.out.println("Une erreur est survenue lors de la lecture / fermeture du fichier d'entrée, arrêt du programme");
         }
         return null;
     }
 
-    public static String getResourcePath(String fileName) {
+    private String getResourcePath(String fileName) {
         final File f = new File("");
-        final String dossierPath = f.getAbsolutePath() + File.separator + fileName;
-        return dossierPath;
+        return f.getAbsolutePath() + File.separator + fileName;
     }
 
-    public static File getResource(String fileName) {
+    File getResource(String fileName) {
         final String completeFileName = getResourcePath(fileName);
-        File file = new File(completeFileName);
-        return file;
+        return new File(completeFileName);
     }
 
 }

@@ -13,14 +13,12 @@ import com.itextpdf.text.DocumentException;
 
 public class QRCodeGenerator {
 
-    public BufferedImage getQRCode(String content) throws DocumentException, IOException, WriterException {
+    public BufferedImage getQRCode(String content, int size) throws DocumentException, IOException, WriterException {
         //String filename = "qrcode" + this.getCode() + ".png";
-        BufferedImage image = generate(content, 150);
-        //ImageIO.write(image, "PNG", new File(filename));
-        return image;
+        return generate(content, size);
     }
 
-    public BufferedImage generate(String content, int sizeInPixels) throws WriterException {
+    private BufferedImage generate(String content, int sizeInPixels) throws WriterException {
         QRCodeWriter qrWriter = new QRCodeWriter();
         Object matrix = qrWriter.encode(content, BarcodeFormat.QR_CODE, sizeInPixels, sizeInPixels);
         return MatrixToImageWriter.toBufferedImage((BitMatrix) matrix);

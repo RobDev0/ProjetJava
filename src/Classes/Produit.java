@@ -5,25 +5,32 @@ import com.itextpdf.text.DocumentException;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Produit {
 
-    private String categorie;
+    public enum CATEGORIE {
+        ELECTROMENAGER, INFORMATIQUE, TELECOMMUNICATION
+    }
+    private CATEGORIE categorie;
     private String code;
     private String description;
     private String nom;
     private double prixHT;
-    private double TVA = 2.5;
+    private double TVA = 20;
+
+    public static List<Produit> getProduitByCategorie(List<Produit> allProduits, CATEGORIE categorie){
+        List<Produit> produitsCat = new ArrayList<>();
+        for (int i=0; i<allProduits.size(); i++){
+            if (allProduits.get(i).getCategorie() == categorie){
+                produitsCat.add(allProduits.get(i));
+            }
+        }
+        return produitsCat;
+    }
 
     public Produit(){}
-    public Produit(String cat, String code, String desc, String nom, double prix) {
-        this.setCategorie(cat);
-        this.setCode(code);
-        this.setDescription(desc);
-        this.setNom(nom);
-        this.setPrixHT(prix);
-
-    }
 
     public double getTVA() {
         return TVA;
@@ -32,10 +39,10 @@ public class Produit {
         this.TVA = TVA;
     }
 
-    public String getCategorie() {
+    public CATEGORIE getCategorie() {
         return categorie;
     }
-    public void setCategorie(String categorie) {
+    public void setCategorie(CATEGORIE categorie) {
         this.categorie = categorie;
     }
 

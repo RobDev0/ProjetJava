@@ -1,28 +1,29 @@
 package Classes.CSV;
 
-import Classes.CSV.CsvFileHelper;
-import Classes.CSV.CsvReader;
+import Classes.Extractable;
 import Classes.Produit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVAdapter {
+public class CSVProduit implements Extractable {
 
     private String cheminFichier;
-    private CsvReader fileReader = new CsvReader(CsvFileHelper.getResource(cheminFichier));
+    private CSVAdapteur fileReader;
 
-    public CSVAdapter(String cheminFichier){
-        this.cheminFichier = cheminFichier;
+    public CSVProduit(String cheminFichier){
+        fileReader = new CSVAdapteur(cheminFichier);
     }
 
-    public List<Produit> extractProductFromCSV() {
+    @Override
+    public List<Produit> extractProduct() {
         List<Produit> listProduct = new ArrayList<>();
         List<List<String>> fileContent = fileReader.getContentLinesList();
+        System.out.println("size: " + fileContent.size());
         for (int i=0;i<fileContent.size();i++){
             Produit newProduct = new Produit();
             newProduct.setNom(fileContent.get(i).get(0));
-            newProduct.setCategorie(fileContent.get(i).get(1));
+            newProduct.setCategorie(Produit.CATEGORIE.valueOf(fileContent.get(i).get(1)));
             newProduct.setCode(fileContent.get(i).get(2));
             newProduct.setDescription(fileContent.get(i).get(3));
             try {
@@ -33,6 +34,11 @@ public class CSVAdapter {
             listProduct.add(newProduct);
         }
         return listProduct;
+    }
+
+    @Override
+    public String getCheminFichier() {
+        return cheminFichier;
     }
 
 }

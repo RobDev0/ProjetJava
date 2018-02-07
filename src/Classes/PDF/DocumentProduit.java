@@ -1,34 +1,37 @@
-package Classes;
+package Classes.PDF;
 
+import Classes.Produit;
+import Classes.Sortable;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;
 import java.util.List;
 
-public abstract class DocumentProduit {
+public abstract class DocumentProduit implements Sortable {
 
     private String fileName;
     private List<Produit> listeProduits;
 
-    protected abstract boolean creerFichierPdf() throws DocumentException, IOException, WriterException;
+    public abstract void creerSortie() throws DocumentException, IOException, WriterException;
 
-    public DocumentProduit(String fileName, List<Produit> listeProduits){
+    DocumentProduit(String fileName, List<Produit> listeProduits){
         this.setFileName(fileName);
         this.setListeProduits(listeProduits);
     }
 
-    public String getFileName() {
+    String getFileName() {
         return fileName;
     }
     private void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public List<Produit> getListeProduits() {
+    List<Produit> getListeProduits() {
         return listeProduits;
     }
     private void setListeProduits(List<Produit> listeProduits) {
         this.listeProduits = listeProduits;
     }
+
 }
